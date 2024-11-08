@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+
+import React, { useState } from 'react';
+import HomePage from './pages/HomePage';
+import QuizPage from './pages/QuizPage';
+import ResultPage from './pages/ResultPage';
 
 function App() {
+  const [page, setPage] = useState('home');
+  const [score, setScore] = useState(0);
+
+  const startQuiz = () => setPage('quiz');
+  const endQuiz = (finalScore) => {
+    setScore(finalScore);
+    setPage('result');
+  };
+  const restartQuiz = () => {
+    setScore(0);
+    setPage('home');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-gray-100 min-h-screen w-full flex items-center justify-center">
+      {page === 'home' && <HomePage startQuiz={startQuiz} />}
+      {page === 'quiz' && <QuizPage endQuiz={endQuiz} />}
+      {page === 'result' && <ResultPage score={score} restartQuiz={restartQuiz} />}
     </div>
   );
 }
